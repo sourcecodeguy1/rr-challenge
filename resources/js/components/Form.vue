@@ -37,16 +37,16 @@
                         <form @submit.prevent="handleSubmit">
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">Name<span style="color: #ea5d24;">*</span></label>
-                                <input v-model="first_name" @keyup='fNameCharCount()' minlength="2" maxlength="50" type="text" class="form-control" name="first_name" id="first_name">
+                                <input :class="displayFNameErrorMsg === true && first_name === '' ? 'input-error' : '' " v-model="first_name" @keyup='fNameCharCount()' minlength="2" maxlength="50" type="text" class="form-control" name="first_name" id="first_name">
                                 <div style="float: right; color: gray;">{{ totalFNameCharacter + '/' + maxCharacterFName }}</div>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">E-mail Address<span style="color: #ea5d24;">*</span></label>
-                                <input v-model="email" type="email" class="form-control" name="email" id="email">
+                                <input :class="displayEmailErrorMsg === true && email === '' ? 'input-error' : '' " v-model="email" @keyup="emailKeyUp" type="email" class="form-control" name="email" id="email">
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Questions / Comments<span style="color: #ea5d24;">*</span></label>
-                                <textarea type="number" v-model='message' @keyup='charCount()' minlength="6" maxlength="200" class="form-control" name="message" id="message" rows="3"></textarea>
+                                <textarea :class="displayMessageErrorMsg === true && message === '' ? 'input-error' : '' " type="number" v-model='message' @keyup='charCount()' minlength="6" maxlength="200" class="form-control" name="message" id="message" rows="3"></textarea>
                                 <div style="float: right; color: gray;">{{ totalcharacter + '/' + maxCharacter }}</div>
                             </div >
                             <br />
@@ -89,7 +89,10 @@ export default {
            maxCharacter: "200",
            totalFNameCharacter: 0,
            minCharacterFName: 2,
-           maxCharacterFName: 50
+           maxCharacterFName: 50,
+           displayFNameErrorMsg: false,
+           displayEmailErrorMsg: false,
+           displayMessageErrorMsg: false
 
         }
     },
@@ -98,17 +101,32 @@ export default {
 
             this.totalcharacter = this.message.length;
 
+            this.displayMessageErrorMsg = this.message.length <= 0; // Display error to input if <= 0
+
         },
         fNameCharCount(){
             this.totalFNameCharacter = this.first_name.length;
+
+            this.displayFNameErrorMsg = this.first_name.length <= 0; // Display error to input
+
+        },
+        emailKeyUp(){
+            this.displayEmailErrorMsg = this.email.length <= 0; // Display error to input
         },
         resetFormValues(){
             this.first_name = "";
             this.email = "";
             this.message = "";
 
+            this.displayFNameErrorMsg = false;
+            this.displayEmailErrorMsg = false;
+            this.displayMessageErrorMsg = false;
+
             this.totalcharacter = 0;
             this.totalFNameCharacter = 0;
+
+            let message_result = document.getElementById('message_result');
+            message_result.classList.remove('show');
         },
         handleSubmit(){
 
@@ -118,13 +136,9 @@ export default {
 
                     if(this.message !== ""){
 
-                        let firstName = document.getElementById('first_name');
-                        let email = document.getElementById('email');
-                        let message = document.getElementById('message');
-
-                        firstName.classList.remove('input-error');
-                        email.classList.remove('input-error');
-                        message.classList.remove('input-error');
+                        this.displayFNameErrorMsg = false;
+                        this.displayEmailErrorMsg = false;
+                        this.displayMessageErrorMsg = false;
 
                         let message_result = document.getElementById('message_result');
                         message_result.classList.remove('show');
@@ -153,8 +167,7 @@ export default {
 
 
                     } else {
-                        let message = document.getElementById('message');
-                        message.classList.add('input-error');
+                        this.displayMessageErrorMsg = true;
 
                         let message_result = document.getElementById('message_result');
 
@@ -164,8 +177,7 @@ export default {
                     }
 
                 } else {
-                    let email = document.getElementById('email');
-                    email.classList.add('input-error');
+                    this.displayEmailErrorMsg = true;
 
                     let message_result = document.getElementById('message_result');
                     message_result.classList.add('show');
@@ -173,13 +185,13 @@ export default {
                 }
 
             } else {
-                let firstName = document.getElementById('first_name');
+
+                this.displayFNameErrorMsg = true;
                 let message_result = document.getElementById('message_result');
 
                 message_result.classList.add('show');
                 message_result.innerHTML = "Please enter your name";
 
-                firstName.classList.add('input-error');
             }
 
         }

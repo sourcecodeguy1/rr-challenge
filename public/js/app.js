@@ -1936,22 +1936,35 @@ __webpack_require__.r(__webpack_exports__);
       maxCharacter: "200",
       totalFNameCharacter: 0,
       minCharacterFName: 2,
-      maxCharacterFName: 50
+      maxCharacterFName: 50,
+      displayFNameErrorMsg: false,
+      displayEmailErrorMsg: false,
+      displayMessageErrorMsg: false
     };
   },
   methods: {
     charCount: function charCount() {
       this.totalcharacter = this.message.length;
+      this.displayMessageErrorMsg = this.message.length <= 0; // Display error to input if <= 0
     },
     fNameCharCount: function fNameCharCount() {
       this.totalFNameCharacter = this.first_name.length;
+      this.displayFNameErrorMsg = this.first_name.length <= 0; // Display error to input
+    },
+    emailKeyUp: function emailKeyUp() {
+      this.displayEmailErrorMsg = this.email.length <= 0; // Display error to input
     },
     resetFormValues: function resetFormValues() {
       this.first_name = "";
       this.email = "";
       this.message = "";
+      this.displayFNameErrorMsg = false;
+      this.displayEmailErrorMsg = false;
+      this.displayMessageErrorMsg = false;
       this.totalcharacter = 0;
       this.totalFNameCharacter = 0;
+      var message_result = document.getElementById('message_result');
+      message_result.classList.remove('show');
     },
     handleSubmit: function handleSubmit() {
       var _this = this;
@@ -1959,12 +1972,9 @@ __webpack_require__.r(__webpack_exports__);
       if (this.first_name !== "") {
         if (this.email !== "") {
           if (this.message !== "") {
-            var firstName = document.getElementById('first_name');
-            var email = document.getElementById('email');
-            var message = document.getElementById('message');
-            firstName.classList.remove('input-error');
-            email.classList.remove('input-error');
-            message.classList.remove('input-error');
+            this.displayFNameErrorMsg = false;
+            this.displayEmailErrorMsg = false;
+            this.displayMessageErrorMsg = false;
             var message_result = document.getElementById('message_result');
             message_result.classList.remove('show'); // Make api request here
 
@@ -1984,9 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
               alert(error);
             });
           } else {
-            var _message = document.getElementById('message');
-
-            _message.classList.add('input-error');
+            this.displayMessageErrorMsg = true;
 
             var _message_result = document.getElementById('message_result');
 
@@ -1995,9 +2003,7 @@ __webpack_require__.r(__webpack_exports__);
             _message_result.innerHTML = "Please enter your questions or comments";
           }
         } else {
-          var _email = document.getElementById('email');
-
-          _email.classList.add('input-error');
+          this.displayEmailErrorMsg = true;
 
           var _message_result2 = document.getElementById('message_result');
 
@@ -2006,15 +2012,13 @@ __webpack_require__.r(__webpack_exports__);
           _message_result2.innerHTML = "Please enter your email. Please make sure it includes an @ symbol with a valid email address.";
         }
       } else {
-        var _firstName = document.getElementById('first_name');
+        this.displayFNameErrorMsg = true;
 
         var _message_result3 = document.getElementById('message_result');
 
         _message_result3.classList.add('show');
 
         _message_result3.innerHTML = "Please enter your name";
-
-        _firstName.classList.add('input-error');
       }
     }
   }
@@ -37900,6 +37904,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class:
+                          _vm.displayFNameErrorMsg === true &&
+                          _vm.first_name === ""
+                            ? "input-error"
+                            : "",
                         attrs: {
                           minlength: "2",
                           maxlength: "50",
@@ -37949,9 +37958,14 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class:
+                          _vm.displayEmailErrorMsg === true && _vm.email === ""
+                            ? "input-error"
+                            : "",
                         attrs: { type: "email", name: "email", id: "email" },
                         domProps: { value: _vm.email },
                         on: {
+                          keyup: _vm.emailKeyUp,
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -37975,6 +37989,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class:
+                          _vm.displayMessageErrorMsg === true &&
+                          _vm.message === ""
+                            ? "input-error"
+                            : "",
                         attrs: {
                           type: "number",
                           minlength: "6",
