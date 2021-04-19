@@ -1947,6 +1947,8 @@ __webpack_require__.r(__webpack_exports__);
       this.totalFNameCharacter = this.first_name.length;
     },
     handleSubmit: function handleSubmit() {
+      var _this = this;
+
       if (this.first_name !== "") {
         if (this.email !== "") {
           if (this.message !== "") {
@@ -1956,8 +1958,6 @@ __webpack_require__.r(__webpack_exports__);
             firstName.classList.remove('input-error');
             email.classList.remove('input-error');
             message.classList.remove('input-error');
-            this.totalcharacter = 0;
-            this.totalFNameCharacter = 0;
             var message_result = document.getElementById('message_result');
             message_result.classList.remove('show'); // Make api request here
 
@@ -1968,9 +1968,11 @@ __webpack_require__.r(__webpack_exports__);
             }).then(function (res) {
               console.log(res);
               alert(res.data.message);
-              firstName.value = "";
-              email.value = "";
-              message.value = "";
+              _this.first_name = "";
+              _this.email = "";
+              _this.message = "";
+              _this.totalcharacter = 0;
+              _this.totalFNameCharacter = 0;
             })["catch"](function (error) {
               alert(error);
             });

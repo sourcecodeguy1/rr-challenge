@@ -118,9 +118,6 @@ export default {
                         email.classList.remove('input-error');
                         message.classList.remove('input-error');
 
-                        this.totalcharacter = 0;
-                        this.totalFNameCharacter = 0;
-
                         let message_result = document.getElementById('message_result');
                         message_result.classList.remove('show');
 
@@ -135,9 +132,12 @@ export default {
                                console.log(res);
                                alert(res.data.message);
 
-                               firstName.value = "";
-                               email.value = "";
-                               message.value = "";
+                               this.first_name = "";
+                               this.email = "";
+                               this.message = "";
+
+                               this.totalcharacter = 0;
+                               this.totalFNameCharacter = 0;
 
                             }).catch(function (error){
                                alert(error);
