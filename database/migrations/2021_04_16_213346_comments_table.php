@@ -18,7 +18,8 @@ class CommentsTable extends Migration
             $table->string('first_name');
             $table->string('email');
             $table->text('message');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('update_at')->useCurrentOnUpdate();
         });
     }
 
