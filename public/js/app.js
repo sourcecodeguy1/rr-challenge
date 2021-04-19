@@ -1946,6 +1946,13 @@ __webpack_require__.r(__webpack_exports__);
     fNameCharCount: function fNameCharCount() {
       this.totalFNameCharacter = this.first_name.length;
     },
+    resetFormValues: function resetFormValues() {
+      this.first_name = "";
+      this.email = "";
+      this.message = "";
+      this.totalcharacter = 0;
+      this.totalFNameCharacter = 0;
+    },
     handleSubmit: function handleSubmit() {
       var _this = this;
 
@@ -38003,7 +38010,39 @@ var render = function() {
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(" "),
-                    _vm._m(5)
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          staticStyle: {
+                            "background-color": "#ea5d24",
+                            color: "white",
+                            width: "125px"
+                          },
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Submit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "text-center",
+                          staticStyle: {
+                            "background-color": "white",
+                            color: "gray",
+                            float: "right",
+                            "margin-top": "5px"
+                          },
+                          attrs: { type: "button" },
+                          on: { click: _vm.resetFormValues }
+                        },
+                        [_vm._v("Reset")]
+                      ),
+                      _vm._v(" "),
+                      _c("div")
+                    ])
                   ]
                 )
               ])
@@ -38082,43 +38121,6 @@ var staticRenderFns = [
         _c("span", { staticStyle: { color: "#ea5d24" } }, [_vm._v("*")])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-default",
-          staticStyle: {
-            "background-color": "#ea5d24",
-            color: "white",
-            width: "125px"
-          },
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Submit")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "text-center",
-          staticStyle: {
-            "background-color": "white",
-            color: "gray",
-            float: "right",
-            "margin-top": "5px"
-          },
-          attrs: { type: "reset" }
-        },
-        [_vm._v("Reset")]
-      ),
-      _vm._v(" "),
-      _c("div")
-    ])
   }
 ]
 render._withStripped = true

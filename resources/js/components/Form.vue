@@ -52,7 +52,7 @@
                             <br />
                             <div>
                                 <button type="submit" class="btn btn-default" style="background-color: #ea5d24; color: white; width: 125px;">Submit</button>
-                                <button type="reset" class="text-center" style="background-color: white; color: gray; float: right; margin-top: 5px;">Reset</button>
+                                <button type="button" @click="resetFormValues" class="text-center" style="background-color: white; color: gray; float: right; margin-top: 5px;">Reset</button>
                                 <div></div>
                             </div>
 
@@ -101,6 +101,14 @@ export default {
         },
         fNameCharCount(){
             this.totalFNameCharacter = this.first_name.length;
+        },
+        resetFormValues(){
+            this.first_name = "";
+            this.email = "";
+            this.message = "";
+
+            this.totalcharacter = 0;
+            this.totalFNameCharacter = 0;
         },
         handleSubmit(){
 
